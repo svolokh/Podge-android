@@ -1,0 +1,3 @@
+[submodule "src/main/core"]
+	path = src/main/core
+	url = git@github.com:sashavol/podge-core.git

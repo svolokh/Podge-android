@@ -1,0 +1,81 @@
+buildscript {
+    repositories {
+        jcenter()
+        google()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.3.0'
+    }
+}
+
+apply plugin: 'com.android.application'
+
+repositories {
+    jcenter()
+    google()
+}
+
+android {
+    sourceSets {
+        main {
+            assets.srcDirs = ['src/main/core/assets']
+        }
+    }
+    signingConfigs {
+        config {
+            keyPassword 'verygoodpass'
+            storeFile file('util/test-keystore')
+            storePassword 'verygoodpass'
+            keyAlias 'key0'
+        }
+    }
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId 'io.podge.podge'
+        minSdkVersion 16
+        targetSdkVersion 26
+        externalNativeBuild {
+            cmake {
+                arguments '-DANDROID_STL=c++_static'
+            }
+        }
+        signingConfig signingConfigs.config
+    }
+    flavorDimensions 'cpuArch'
+    productFlavors {
+        x86 {
+            dimension 'cpuArch'
+            ndk {
+                abiFilters 'x86'
+            }
+        }
+        arm {
+            dimension 'cpuArch'
+            ndk {
+                abiFilters 'armeabi-v7a', 'arm64-v8a'
+            }
+        }
+        armeabi {
+            dimension 'cpuArch'
+            ndk {
+                abiFilters 'armeabi-v7a'
+            }
+        }
+        universal {
+            dimension 'cpuArch'
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path 'src/main/core/CMakeLists.txt'
+        }
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.config
+        }
+        debug {
+            signingConfig signingConfigs.config
+        }
+    }
+}

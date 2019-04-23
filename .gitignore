@@ -1,0 +1,8 @@
+**/.DS_Store
+**/.externalNativeBuild
+**/.gradle
+.idea
+**/*.swp
+build
+.debug
+tags
